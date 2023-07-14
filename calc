@@ -1,0 +1,101 @@
+use std::io::{self, Write};
+
+fn main() {
+    loop {
+        print_menu();
+        let choice = get_input();
+
+        match choice {
+            1 => {
+                let (num1, num2) = get_two_numbers();
+                let result = num1 + num2;
+                println!("Result: {}", result);
+            }
+            2 => {
+                let (num1, num2) = get_two_numbers();
+                let result = num1 - num2;
+                println!("Result: {}", result);
+            }
+            3 => {
+                let (num1, num2) = get_two_numbers();
+                let result = num1 * num2;
+                println!("Result: {}", result);
+            }
+            4 => {
+                let (num1, num2) = get_two_numbers();
+                if num2 != 0 {
+                    let result = num1 / num2;
+                    println!("Result: {}", result);
+                } else {
+                    println!("Error: Division by zero");
+                }
+            }
+            5 => {
+                println!("Exiting calculator...");
+                break;
+            }
+            _ => {
+                println!("Invalid choice, please try again");
+            }
+        }
+    }
+}
+
+fn print_menu() {
+    println!("--- Calculator Menu ---");
+    println!("1. Addition");
+    println!("2. Subtraction");
+    println!("3. Multiplication");
+    println!("4. Division");
+    println!("5. Exit");
+}
+
+fn get_input() -> u32 {
+    loop {
+        print!("Enter your choice: ");
+        io::stdout().flush().unwrap();
+
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+
+        match input.trim().parse() {
+            Ok(num) => return num,
+            Err(_) => {
+                println!("Invalid input, please enter a number");
+                continue;
+            }
+        }
+    }
+}
+
+fn get_two_numbers() -> (f64, f64) {
+    loop {
+        print!("Enter the first number: ");
+        io::stdout().flush().unwrap();
+
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+
+        match input.trim().parse() {
+            Ok(num1) => {
+                print!("Enter the second number: ");
+                io::stdout().flush().unwrap();
+
+                let mut input = String::new();
+                io::stdin().read_line(&mut input).unwrap();
+
+                match input.trim().parse() {
+                    Ok(num2) => return (num1, num2),
+                    Err(_) => {
+                        println!("Invalid input, please enter a number");
+                        continue;
+                    }
+                }
+            }
+            Err(_) => {
+                println!("Invalid input, please enter a number");
+                continue;
+            }
+        }
+    }
+}
